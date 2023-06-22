@@ -1,0 +1,23 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mysql
+  namespace: 1team
+  labels:
+    app: mysql
+spec:
+  nodeName: node3  
+  containers:
+  - name: mysql
+    image: mysql:5.7
+    imagePullPolicy: IfNotPresent
+    env:
+    - name: MYSQL_ROOT_PASSWORD
+      value: It12345!
+    - name: MYSQL_DATABASE
+      value: wordpress
+    - name: MYSQL_ROOT_HOST
+      value: '%'
+    ports:
+    - containerPort: 3306 
