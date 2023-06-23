@@ -1,0 +1,24 @@
+---
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: rep-apache
+  labels:
+    app: web
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: tem-apache
+  template:
+    metadata:
+      name: httpd-tem
+      labels:
+        app: tem-apache
+    spec:
+      containers:
+      - name: h1
+        image: httpd
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80
