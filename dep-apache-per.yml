@@ -1,0 +1,75 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "1"
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"dep":"apache"},"name":"dep-apache","namespace":"default"},"spec":{"replicas":3,"selector":{"matchLabels":{"app":"rep-apache"}},"template":{"metadata":{"labels":{"app":"rep-apache"},"name":"tem-apache"},"spec":{"containers":[{"image":"httpd","imagePullPolicy":"IfNotPresent","name":"apache","ports":[{"containerPort":80}],"volumeMounts":[{"mountPath":"/usr/local/apache2/htdocs","name":"kws-pervol"}]}],"volumes":[{"name":"kws-pervol","persistentVolumeClaim":{"claimName":"per-volcal"}}]}}}}
+  creationTimestamp: "2023-06-23T14:50:24Z"
+  generation: 1
+  labels:
+    dep: apache
+  name: dep-apache
+  namespace: default
+  resourceVersion: "134508"
+  uid: fd812ed4-fba6-4d5e-a8d8-42ce7d0cf98a
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 3
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: rep-apache
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: rep-apache
+      name: tem-apache
+    spec:
+      containers:
+      - image: httpd
+        imagePullPolicy: IfNotPresent
+        name: apache
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /usr/local/apache2/htdocs
+          name: kws-pervol
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: kws-pervol
+        persistentVolumeClaim:
+          claimName: per-volcal
+status:
+  availableReplicas: 3
+  conditions:
+  - lastTransitionTime: "2023-06-23T14:50:27Z"
+    lastUpdateTime: "2023-06-23T14:50:27Z"
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: "True"
+    type: Available
+  - lastTransitionTime: "2023-06-23T14:50:25Z"
+    lastUpdateTime: "2023-06-23T14:50:27Z"
+    message: ReplicaSet "dep-apache-7bb99bbbf5" has successfully progressed.
+    reason: NewReplicaSetAvailable
+    status: "True"
+    type: Progressing
+  observedGeneration: 1
+  readyReplicas: 3
+  replicas: 3
+  updatedReplicas: 3
